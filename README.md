@@ -6,6 +6,6 @@ Thanks to Anaconda, installing all the necessary packages is very simple. Just d
 
 2.) Download and install Visual Studio Code
 
-3.) Downloaded all .ipynb files from https://github.com/janfroehlich/hdm-filmtech-2/tree/main
+3.) Downloaded all .ipynb files from this repo
 
 4.) In Visual Studio Code make the folder you downloaded the .ipynb files to your working directory.
