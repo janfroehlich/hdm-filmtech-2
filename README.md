@@ -1,4 +1,4 @@
-# Film Technology 2 — Installation on Macs or PCs (Windows/Linux) outside Room 043
+# Film Technology 2 — Installation on Macs (MacOS) or PCs (Windows/Linux) outside Room 043
 
 Thanks to Anaconda, installing all the necessary packages is very simple. Just download and install the newest Anaconda version for your operating system from the website below. Almost all the packages we'll need (NumPy, Matplotlib, and Jupyter Notebooks) are already included. Only Libraw needs to be installed separately.
 
