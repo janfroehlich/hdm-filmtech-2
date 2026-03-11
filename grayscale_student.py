@@ -17,17 +17,17 @@ img      = np.array(Image.open("bild.jpg"))        # Shape: (H, W, 3), dtype uin
 r, g, b  = img[:, :, 0], img[:, :, 1], img[:, :, 2]
 
 # --- Rec.-709-Konvertierung ---
-gray = 0.2126 * r + 0.7152 * g + 0.0722 * b       ______  # Hinweis: Rec.-709-Formel: Y = 0.2126*R + 0.7152*G + 0.0722*B
-gray = gray.astype(np.uint8)                        ______  # Hinweis: Ergebnis in uint8 umwandeln, damit Werte 0–255 bleiben
+______  # Hinweis: Rec.-709-Formel: Y = 0.2126*R + 0.7152*G + 0.0722*B
+______  # Hinweis: Ergebnis in uint8 umwandeln, damit Werte 0–255 bleiben
 
 # --- Anzeige ---
-fig, axes = plt.subplots(1, 2, figsize=(10, 4))    ______  # Hinweis: 1 Zeile, 2 Spalten nebeneinander
+fig, axes = plt.subplots(1, 2, figsize=(10, 4))
 
-axes[0].imshow(img)                                 ______
-axes[0].set_title("Original (RGB)")                 ______
+axes[0].imshow(img)
+axes[0].set_title("Original (RGB)")
 
-axes[1].imshow(gray, cmap="gray")                   ______  # Hinweis: cmap="gray" für Graustufendarstellung
-axes[1].set_title("Graustufen (Rec. 709)")          ______
+axes[1].imshow(gray, cmap="gray")
+axes[1].set_title("Graustufen (Rec. 709)")
 
 plt.tight_layout()
 plt.show()
