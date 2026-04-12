@@ -1,0 +1,163 @@
+import numpy as np
+import plotly.graph_objects as go
+
+# This function helps to display images pixel per pixel
+def show(arr: np.ndarray, colorscale: str = "gray") -> None:
+    """Display a 2D or RGB numpy array as a 1:1 pixel image."""
+    if arr.ndim == 2:
+        height, width = arr.shape
+        trace = go.Heatmap(
+            z=arr,
+            colorscale=colorscale,
+            showscale=False,
+            zmin=arr.min(),
+            zmax=arr.max(),
+        )
+    elif arr.ndim == 3 and arr.shape[2] == 3:
+        height, width = arr.shape[:2]
+        trace = go.Image(z=(np.clip(arr, 0, 1) * 255).astype(np.uint8))
+    else:
+        raise ValueError(f"Expected 2D or N×M×3 array, got shape {arr.shape}")
+
+    fig = go.Figure(trace)
+    fig.update_layout(
+        width=width,
+        height=height,
+        margin=dict(t=0, b=0, l=0, r=0),
+        xaxis=dict(visible=False, scaleanchor="y"),
+        yaxis=dict(visible=False, autorange="reversed"),
+        paper_bgcolor="black",
+        plot_bgcolor="black",
+    )
+    fig.show(config={"responsive": False})
+
+
+
+def show2(top: np.ndarray, start_color: float = 0.5) -> list:
+    import plotly.graph_objects as go
+    import ipywidgets as widgets
+    from IPython.display import display, HTML
+
+    display(HTML("""
+    <style>
+    .jp-OutputArea-output,
+    .jp-OutputArea-output div,
+    .jp-Cell-outputArea,
+    .widget-output,
+    .output_area,
+    .cell-output-ipywidget-background {
+        background: black !important;
+        background-color: black !important;
+    }
+    </style>
+    """))
+
+    s = top.shape[0]
+    test_color = [start_color]
+
+    bot = np.full_like(top, test_color[0])
+    img = np.vstack([top, bot]).astype(np.float32)
+    height, width = img.shape
+
+    fig = go.FigureWidget(go.Heatmap(
+        z=(img * 255).astype(np.uint8),
+        colorscale=[[0, "black"], [1, "white"]],
+        showscale=False,
+        zmin=0, zmax=255,
+    ))
+
+    fig.update_layout(
+        width=width,
+        height=height,
+        margin=dict(t=0, b=0, l=0, r=0),
+        xaxis=dict(visible=False, scaleanchor="y"),
+        yaxis=dict(visible=False, autorange="reversed"),
+        paper_bgcolor="black",
+        plot_bgcolor="black",
+    )
+
+    label = widgets.Label(
+        value=f"test_color = {test_color[0]:.4f}",
+        style={"description_width": "0px"},
+        layout=widgets.Layout(color="white"),
+    )
+
+    def step(delta):
+        test_color[0] = min(1.0, max(0.0, test_color[0] + delta))
+        bot = np.full_like(top, test_color[0])
+        new_z = (np.vstack([top, bot]) * 255).astype(np.uint8)
+        with fig.batch_update():
+            fig.data[0].z = new_z
+        label.value = f"test_color = {test_color[0]:.2f}"
+
+    btn_minus = widgets.Button(description="−", layout=widgets.Layout(width="48px"),
+                               style=widgets.ButtonStyle(button_color="#222", text_color="white"))
+    btn_plus  = widgets.Button(description="+", layout=widgets.Layout(width="48px"),
+                               style=widgets.ButtonStyle(button_color="#222", text_color="white"))
+    btn_minus.on_click(lambda _: step(-1.0/255.0))
+    btn_plus.on_click( lambda _: step(+1.0/255.0))
+
+    ui = widgets.VBox(
+        [widgets.HBox([btn_minus, btn_plus, label]), fig],
+        layout=widgets.Layout(background_color="black", padding="4px")
+    )
+    display(ui)
+    return test_color
+
+
+def show_toggle(*images: np.ndarray) -> None:
+    import ipywidgets as widgets
+    from IPython.display import display
+
+    idx = [0]
+
+    def make_z(arr):
+        return (np.clip(arr, 0, 1) * 255).astype(np.uint8)
+
+    frames = [make_z(arr) for arr in images]
+
+    first = images[0]
+    height, width = first.shape[:2]
+
+    if first.ndim == 2:
+        trace = go.Heatmap(z=frames[0], colorscale="gray", showscale=False, zmin=0, zmax=255)
+    else:
+        trace = go.Image(z=frames[0])
+
+    fig = go.FigureWidget(trace)
+    fig.update_layout(
+        width=width, height=height,
+        margin=dict(t=0, b=0, l=0, r=0),
+        xaxis=dict(visible=False, scaleanchor="y"),
+        yaxis=dict(visible=False, autorange="reversed"),
+        paper_bgcolor="black", plot_bgcolor="black",
+    )
+
+    label = widgets.Label(value=f"Image 1 / {len(images)}")
+
+    def show_idx(i):
+        with fig.batch_update():
+            fig.data[0].z = frames[i]
+        label.value = f"Image {i+1} / {len(images)}"
+
+    def prev(_):
+        idx[0] = (idx[0] - 1) % len(images)
+        show_idx(idx[0])
+
+    def next_(_):
+        idx[0] = (idx[0] + 1) % len(images)
+        show_idx(idx[0])
+
+    btn_prev = widgets.Button(description="◀", layout=widgets.Layout(width="48px"),
+                              style=widgets.ButtonStyle(button_color="#222", text_color="white"))
+    btn_next = widgets.Button(description="▶", layout=widgets.Layout(width="48px"),
+                              style=widgets.ButtonStyle(button_color="#222", text_color="white"))
+    btn_prev.on_click(prev)
+    btn_next.on_click(next_)
+
+    display(widgets.VBox(
+        [widgets.HBox([btn_prev, btn_next, label]), fig],
+        layout=widgets.Layout(background_color="black", padding="4px")
+    ))
+
+    
