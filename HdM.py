@@ -4,22 +4,22 @@ import plotly.graph_objects as go
 # This function helps to display images pixel per pixel
 def show(arr: np.ndarray, colorscale: str = "gray") -> None:
     """Display a 2D or RGB numpy array as a 1:1 pixel image."""
+    import imageio.v3 as iio
+    import base64
+
     if arr.ndim == 2:
         height, width = arr.shape
-        trace = go.Heatmap(
-            z=arr,
-            colorscale=colorscale,
-            showscale=False,
-            zmin=arr.min(),
-            zmax=arr.max(),
-        )
+        uint8 = (np.clip(arr, arr.min(), arr.max()) * 255).astype(np.uint8)
     elif arr.ndim == 3 and arr.shape[2] == 3:
         height, width = arr.shape[:2]
-        trace = go.Image(z=(np.clip(arr, 0, 1) * 255).astype(np.uint8))
+        uint8 = (np.clip(arr, 0, 1) * 255).astype(np.uint8)
     else:
         raise ValueError(f"Expected 2D or N×M×3 array, got shape {arr.shape}")
 
-    fig = go.Figure(trace)
+    png_bytes = iio.imwrite("<bytes>", uint8, plugin="pillow", extension=".png")
+    source = "data:image/png;base64," + base64.b64encode(png_bytes).decode()
+
+    fig = go.Figure(go.Image(source=source))
     fig.update_layout(
         width=width,
         height=height,
@@ -34,9 +34,11 @@ def show(arr: np.ndarray, colorscale: str = "gray") -> None:
 
 
 def show2(top: np.ndarray, start_color: float = 0.5) -> list:
+    from IPython.display import display, HTML, clear_output
+    clear_output(wait=True)
     import plotly.graph_objects as go
     import ipywidgets as widgets
-    from IPython.display import display, HTML
+    from IPython.display import display, HTML  
 
     display(HTML("""
     <style>
@@ -104,27 +106,27 @@ def show2(top: np.ndarray, start_color: float = 0.5) -> list:
     display(ui)
     return test_color
 
-
 def show_toggle(*images: np.ndarray) -> None:
     import ipywidgets as widgets
-    from IPython.display import display
+    from IPython.display import display, clear_output, Javascript, HTML
+    import imageio.v3 as iio
+    import base64
 
     idx = [0]
 
     def make_z(arr):
         return (np.clip(arr, 0, 1) * 255).astype(np.uint8)
 
-    frames = [make_z(arr) for arr in images]
+    def to_b64(arr):
+        png_bytes = iio.imwrite("<bytes>", make_z(arr), plugin="pillow", extension=".png")
+        return "data:image/png;base64," + base64.b64encode(png_bytes).decode()
+
+    frames = [to_b64(arr) for arr in images]
 
     first = images[0]
     height, width = first.shape[:2]
 
-    if first.ndim == 2:
-        trace = go.Heatmap(z=frames[0], colorscale="gray", showscale=False, zmin=0, zmax=255)
-    else:
-        trace = go.Image(z=frames[0])
-
-    fig = go.FigureWidget(trace)
+    fig = go.FigureWidget(go.Image(source=frames[0]))
     fig.update_layout(
         width=width, height=height,
         margin=dict(t=0, b=0, l=0, r=0),
@@ -133,12 +135,30 @@ def show_toggle(*images: np.ndarray) -> None:
         paper_bgcolor="black", plot_bgcolor="black",
     )
 
-    label = widgets.Label(value=f"Image 1 / {len(images)}")
+    label = widgets.Label(
+        value=f"Image 1 / {len(images)}",
+        style={"description_width": "0px"},
+        layout=widgets.Layout(color="white"),
+    )
+
+    def beep():
+        display(Javascript("""
+            const ctx = new AudioContext();
+            const o = ctx.createOscillator();
+            const g = ctx.createGain();
+            o.connect(g); g.connect(ctx.destination);
+            o.frequency.value = 880;
+            g.gain.setValueAtTime(0.3, ctx.currentTime);
+            g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.15);
+            o.start(ctx.currentTime);
+            o.stop(ctx.currentTime + 0.15);
+        """))
 
     def show_idx(i):
         with fig.batch_update():
-            fig.data[0].z = frames[i]
+            fig.data[0].source = frames[i]
         label.value = f"Image {i+1} / {len(images)}"
+        beep()
 
     def prev(_):
         idx[0] = (idx[0] - 1) % len(images)
@@ -148,6 +168,8 @@ def show_toggle(*images: np.ndarray) -> None:
         idx[0] = (idx[0] + 1) % len(images)
         show_idx(idx[0])
 
+    black = widgets.Layout(background_color="black")
+
     btn_prev = widgets.Button(description="◀", layout=widgets.Layout(width="48px"),
                               style=widgets.ButtonStyle(button_color="#222", text_color="white"))
     btn_next = widgets.Button(description="▶", layout=widgets.Layout(width="48px"),
@@ -155,9 +177,23 @@ def show_toggle(*images: np.ndarray) -> None:
     btn_prev.on_click(prev)
     btn_next.on_click(next_)
 
-    display(widgets.VBox(
-        [widgets.HBox([btn_prev, btn_next, label]), fig],
-        layout=widgets.Layout(background_color="black", padding="4px")
-    ))
+    ui = widgets.VBox(
+        [widgets.HBox([btn_prev, btn_next, label], layout=black), fig],
+        layout=widgets.Layout(background_color="black", padding="4px", width=f"{width}px")
+    )
+
+    clear_output(wait=True)
+    display(HTML("""
+    <style>
+    .cell-output-ipywidget-background,
+    .jp-OutputArea-output,
+    .widget-vbox,
+    .widget-hbox,
+    .widget-label {
+        background-color: black !important;
+    }
+    </style>
+    """))
+    display(ui)
 
     
