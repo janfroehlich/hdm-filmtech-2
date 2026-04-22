@@ -8,4 +8,4 @@ Thanks to Anaconda, installing all the necessary packages is very simple. Just d
 
 3.) Downloaded all files from this repo.
 
-4.) In Visual Studio Code make the folder you downloaded these files to your working directory and open the forst B_FT2_00_Introduction_... .ipnb
+4.) In Visual Studio Code make the folder you downloaded these files to your working directory and open the first *.ipynb: B_FT2_00_Introduction_... 
