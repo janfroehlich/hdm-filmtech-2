@@ -7,6 +7,14 @@ def show(arr: np.ndarray, colorscale: str = "gray") -> None:
     import imageio.v3 as iio
     import base64
 
+    # Extend image size if too small to display
+    if min(arr.shape[0],arr.shape[1]) <= 10:
+        arr = np.repeat( np.repeat(arr, 10, axis=0), 10, axis=1)
+    
+    # Limit to 0...1
+    arr = np.clip(arr,0,1)
+
+    # Switch RGB and gray cases 
     if arr.ndim == 2:
         height, width = arr.shape
         uint8 = (np.clip(arr, arr.min(), arr.max()) * 255).astype(np.uint8)
