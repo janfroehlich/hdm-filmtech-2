@@ -429,7 +429,7 @@ def plot_TM_interactive(tone_fn, rgb, params, linear2sRGB, clamp=None,
         img_idx.append(len(fig.data) - 1)
  
     fig.update_xaxes(row=1, col=1, type="log", showgrid=True,
-                     title="HDR input (Peak white at 4 for this example)")
+                     title="HDR input")
     fig.update_yaxes(row=1, col=1, type="log", showgrid=True, title="HDR output",
                      range=[np.log10(1e-5), np.log10(10)])
     for j in range(n_img):
