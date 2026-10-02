@@ -1,4 +1,4 @@
-# Film Technology 2 — Installation on Macs (MacOS) or PCs (Windows/Linux) outside Room 043
+# Film Technology 2 — Installation on Macs (MacOS) or PCs (Windows/Linux)
 
 You need three things: **Visual Studio Code**, **Python 3.13** and a **virtual environment** that holds the Python packages for this course.
 
