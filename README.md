@@ -54,25 +54,6 @@ You have to do this once for every notebook of the course. VS Code remembers you
 Run the first code cell of the notebook: click into it and press **Shift+Enter**. It should end with *Everything is ready*.
 
 <details>
-<summary><b>Alternative to steps 3 and 4: everything in the VS Code terminal with uv</b></summary>
-
-[uv](https://docs.astral.sh/uv/) is a small tool that downloads Python 3.13 by itself and creates the environment. You do not need to install Python separately and you do not need administrator rights.
-
-1. In VS Code open **Terminal → New Terminal** and install uv:
-
-   - Windows: `winget install -e --id astral-sh.uv`
-   - macOS and Linux: `curl -LsSf https://astral.sh/uv/install.sh | sh`
-
-2. Close the terminal, open a new one and run these two lines:
-
-       uv venv --python 3.13 --seed
-       uv pip install -r requirements.txt
-
-3. Continue with step 5.
-
-</details>
-
-<details>
 <summary><b>If something does not work</b></summary>
 
 - **Python 3.13 does not show up in the list in step 4:** quit and restart VS Code. If it is still missing, Python 3.13 is not installed, so repeat step 3.
