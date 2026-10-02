@@ -253,8 +253,6 @@ def _sbs_layout(img_h, img_w, n_img, H_area=320):
 def plot_TM(x, y, img=None) -> None:
     """Plot a tone-mapping transfer function (OOTF) in log-log space.
  
-    Plotly replacement for B_FT2_30_RGB_Display_Rendering_Plot_TM.m.
- 
       * dotted red  : the unaltered source (y = x)
       * solid red   : the tone-mapped transfer function
       * green lines : sRGB-monitor limits (1 and 1/100)
