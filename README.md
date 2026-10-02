@@ -2,7 +2,7 @@
 
 You need three things: **Visual Studio Code**, **Python 3.13** and a **virtual environment** that holds the Python packages for this course.
 
-A virtual environment is simply a folder called `.venv` inside the course folder. Everything we install ends up in that folder and nothing else on your computer is changed. If something goes wrong, delete the folder and start again. Anaconda is not needed.
+A virtual environment is simply a folder called `.venv` inside the course folder. Everything we install ends up in that folder and nothing else on your computer is changed. If something goes wrong, delete the folder and start again.
 
 The setup has to be done once and takes about 10 minutes.
 
