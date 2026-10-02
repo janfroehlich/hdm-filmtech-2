@@ -18,7 +18,7 @@ Download and install it from https://code.visualstudio.com
 
 ## 3. Install Python 3.13
 
-**Install Python 3.13, not the newest version.** The package we use to read camera RAW files (`rawpy`) is not available for Python 3.15 yet.
+**Install Python 3.13, not the newest version.** The package we use to read camera RAW files (`rawpy`) is not available for Python 3.15 or later yet.
 
 - **Windows:** in VS Code open **Terminal → New Terminal**, type the following line and press Enter:
 
