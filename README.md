@@ -6,7 +6,7 @@ A virtual environment is simply a folder called `.venv` inside the course folder
 
 The setup has to be done once and takes about 10 minutes.
 
-## 1. Install Visual Studio Code (already installed in Room 043)
+## 1. Install Visual Studio Code (skip in Room 043)
 
 Download and install it from https://code.visualstudio.com
 
@@ -16,7 +16,7 @@ Download and install it from https://code.visualstudio.com
 2. In VS Code choose **File → Open Folder…** and select the unzipped folder. Open the folder, not a single file. If VS Code asks whether you trust the authors, answer **Yes**.
 3. VS Code offers to install the recommended extensions: click **Install**. If it does not ask, open the Extensions view (the icon with the four squares on the left) and install **Python** and **Jupyter**, both from Microsoft.
 
-## 3. Install Python 3.13 (already installed in Room 043)
+## 3. Install Python 3.13 (skip in Room 043)
 
 **Install Python 3.13, not the newest version.** The package we use to read camera RAW files (`rawpy`) is not available for Python 3.15 or later yet.
 
