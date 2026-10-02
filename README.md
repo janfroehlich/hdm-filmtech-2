@@ -6,17 +6,17 @@ A virtual environment is simply a folder called `.venv` inside the course folder
 
 The setup has to be done once and takes about 10 minutes.
 
-## 1. Install Visual Studio Code
+## 1. Install Visual Studio Code (already installed in Room 043)
 
 Download and install it from https://code.visualstudio.com
 
-## 2. Get the course files and open them in VS Code
+## 2. Get the course files and open them in VS Code --> Save on Drive D in Room 043
 
 1. On https://github.com/janfroehlich/hdm-filmtech-2 click the green **Code** button, choose **Download ZIP** and unzip the file.
 2. In VS Code choose **File → Open Folder…** and select the unzipped folder. Open the folder, not a single file. If VS Code asks whether you trust the authors, answer **Yes**.
 3. VS Code offers to install the recommended extensions: click **Install**. If it does not ask, open the Extensions view (the icon with the four squares on the left) and install **Python** and **Jupyter**, both from Microsoft.
 
-## 3. Install Python 3.13
+## 3. Install Python 3.13 (already installed in Room 043)
 
 **Install Python 3.13, not the newest version.** The package we use to read camera RAW files (`rawpy`) is not available for Python 3.15 or later yet.
 
@@ -32,7 +32,7 @@ Download and install it from https://code.visualstudio.com
 
 Afterwards **quit and restart VS Code** so that it finds the new Python.
 
-## 4. Create the virtual environment
+## 4. Create the virtual environment --> Needed in Room 043
 
 1. Open the Command Palette with **Ctrl+Shift+P** (macOS: **Cmd+Shift+P**).
 2. Type **Python: Create Environment** and press Enter.
