@@ -28,7 +28,7 @@ Download and install it from https://code.visualstudio.com
 
 - **macOS:** go to https://www.python.org/downloads/macos/, look for the newest **Python 3.13.x** entry that offers a *macOS 64-bit universal2 installer* and run it. If you use Homebrew, `brew install python@3.13` does the same.
 
-- **Linux:** install `python3.13` and `python3.13-venv` with your package manager, or use the uv alternative below.
+- **Linux:** install `python3.13` and `python3.13-venv` with your package manager.
 
 Afterwards **quit and restart VS Code** so that it finds the new Python.
 
