@@ -1,0 +1,25 @@
+# Film Technology 2 - Python packages for all notebooks (B_FT2_00 ... B_FT2_60)
+#
+# Use Python 3.13. Python 3.15 does NOT work yet (no rawpy build available).
+# Install into the course's virtual environment (.venv), see README.md:
+#     pip install -r requirements.txt
+
+# Only use ready-made packages ("wheels"), never try to compile from source.
+# Gives a clear error message instead of a long failing C++ build if the
+# Python version does not fit.
+--only-binary :all:
+
+numpy                      # array math
+scipy                      # scipy.ndimage.zoom (image scaling)
+imageio                    # reading and writing images
+pillow                     # PIL: text rendering, PNG encoding for HdM.show()
+rawpy                      # reading camera RAW files (LibRaw is included)
+plotly                     # interactive plots
+kaleido                    # plotly export to PDF/PNG: fig.write_image()
+pandas                     # needed by plotly.express
+colour-checker-detection   # ColorChecker detection (B_FT2_50)
+
+ipykernel                  # lets VS Code run notebooks in this environment
+ipywidgets                 # sliders and toggles in HdM.py
+anywidget                  # plotly FigureWidget in notebooks
+nbformat                   # needed by plotly to show figures in notebooks
