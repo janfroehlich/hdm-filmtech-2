@@ -10,11 +10,12 @@ The setup has to be done once and takes about 10 minutes.
 
 Download and install it from https://code.visualstudio.com
 
-## 2. Get the course files and open them in VS Code --> Save on Drive D in Room 043
+## 2. Get the course files and open them in VS Code --> Save on Drive H in Room 043
 
 1. On https://github.com/janfroehlich/hdm-filmtech-2 click the green **Code** button, choose **Download ZIP** and unzip the file.
 2. In VS Code choose **File → Open Folder…** and select the unzipped folder. Open the folder, not a single file. If VS Code asks whether you trust the authors, answer **Yes**.
 3. VS Code offers to install the recommended extensions: click **Install**. If it does not ask, open the Extensions view (the icon with the four squares on the left) and install **Python** and **Jupyter**, both from Microsoft.
+4. On top of the Visual Studio Code window klick the light blue warning and select "Trust"
 
 ## 3. Install Python 3.13 (skip in Room 043)
 
@@ -36,7 +37,7 @@ Afterwards **quit and restart VS Code** so that it finds the new Python.
 
 1. Open the Command Palette with **Ctrl+Shift+P** (macOS: **Cmd+Shift+P**).
 2. Type **Python: Create Environment** and press Enter.
-3. Choose **Venv**.
+3. Choose **Venv** - NOT *Quick Create*!.
 4. Choose **Python 3.13** from the list.
 5. If asked for a name, keep `.venv`.
 6. When asked which dependencies to install, tick **requirements.txt** and confirm with **OK**.
@@ -51,7 +52,7 @@ You have to do this once for every notebook of the course. VS Code remembers you
 
 ## 6. Check the installation
 
-Run the first code cell of the notebook: click into it and press **Shift+Enter**. It should end with *Everything is ready*.
+Run the first code cells of the notebook B_FT2_00_Introduction... by clicking into it and pressing **Shift+Enter**. Green checkmarks should appear at the bottom of the cells.
 
 <details>
 <summary><b>If something does not work</b></summary>

@@ -1,11 +1,15 @@
+import base64
+
+import imageio.v3 as iio
+import ipywidgets as widgets
 import numpy as np
 import plotly.graph_objects as go
+from IPython.display import HTML, Javascript, clear_output, display
+from plotly.subplots import make_subplots
 
 # This function helps to display images pixel per pixel
 def show(arr: np.ndarray, colorscale: str = "gray") -> None:
     """Display a 2D or RGB numpy array as a 1:1 pixel image."""
-    import imageio.v3 as iio
-    import base64
 
     # Extend image size if too small to display
     if min(arr.shape[0],arr.shape[1]) <= 10:
@@ -42,11 +46,8 @@ def show(arr: np.ndarray, colorscale: str = "gray") -> None:
 
 
 def show2(top: np.ndarray, start_color: float = 0.5) -> list:
-    from IPython.display import display, HTML, clear_output
+
     clear_output(wait=True)
-    import plotly.graph_objects as go
-    import ipywidgets as widgets
-    from IPython.display import display, HTML  
 
     display(HTML("""
     <style>
@@ -115,10 +116,6 @@ def show2(top: np.ndarray, start_color: float = 0.5) -> list:
     return test_color
 
 def show_toggle(*images: np.ndarray) -> None:
-    import ipywidgets as widgets
-    from IPython.display import display, clear_output, Javascript, HTML
-    import imageio.v3 as iio
-    import base64
 
     idx = [0]
 
@@ -213,9 +210,6 @@ def _img_to_uri(arr, max_px=None):
     raw uint8 `z` array, which is what makes live slider updates fast. `max_px`
     optionally caps the longest side (cheap integer striding) for extra speed.
     """
-    import numpy as np
-    import base64
-    import imageio.v3 as iio
  
     arr = np.clip(np.asarray(arr, dtype=float), 0, 1)
     if max_px is not None:
@@ -261,9 +255,6 @@ def plot_TM(x, y, img=None) -> None:
     If `img` is given (an already display-ready RGB image, values in 0..1),
     the curve is drawn smaller on the left and the image beside it on the right.
     """
-    import numpy as np
-    import plotly.graph_objects as go
-    from plotly.subplots import make_subplots
  
     x = np.asarray(x, dtype=float)
     y = np.asarray(y, dtype=float)
@@ -360,9 +351,6 @@ def plot_TM_interactive(tone_fn, rgb, params, linear2sRGB, clamp=None,
     max_preview_px : cap the longest side of the displayed image (cheap integer
                 striding) to keep updates fast. Set None for full resolution.
     """
-    import numpy as np
-    import plotly.graph_objects as go
-    from plotly.subplots import make_subplots
  
     if clamp is None:
         clamp = lambda v: np.clip(v, 0, 1)
@@ -394,15 +382,16 @@ def plot_TM_interactive(tone_fn, rgb, params, linear2sRGB, clamp=None,
     cols = 1 + n_img
     titles = [""] + [p[0] for p in panels]
     L = _sbs_layout(rgb.shape[0], rgb.shape[1], n_img)
+
+
+
  
-    # Try the interactive path; fall back to a static render if widgets missing
-    try:
-        import ipywidgets as widgets
-        from IPython.display import display
-    except Exception:
-        vals0 = [d for (_, _, _, d) in params.values()]
-        plot_TM(x, clamp(tone_fn(x, *vals0)), panels[0][1](vals0))
-        return
+    #vals0 = [d for (_, _, _, d) in params.values()]
+    #plot_TM(x, clamp(tone_fn(x, *vals0)), panels[0][1](vals0))
+
+
+
+
  
     fig = go.FigureWidget(make_subplots(rows=1, cols=cols,
                                         column_widths=L["column_widths"],
